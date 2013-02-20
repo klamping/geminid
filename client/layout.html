@@ -1,0 +1,59 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <!-- Favicon attr: http://www.iconarchive.com/show/3d-cartoon-vol3-icons-by-deleket/AOL-Instant-Messenger-icon.html -->
+</head>
+<body>
+    <div class="page-container">
+        {{> loginPanel}}
+        <div class="chatroom">
+            {{#if currentUser}}
+            <div class="transcript">
+                {{> chatBox}}
+            </div>
+             <div class="users">
+                {{> allUsers}}
+            </div>
+            {{/if}}
+        </div>
+    </div>
+</body>
+
+<template name="loginPanel">
+    <div class="login-panel btn {{loggedOut}}">
+        {{loginButtons align="right"}}
+    </div>
+</template>
+
+<template name="allUsers">
+  <h3 class="section-heading">Folks:</h3>
+  <p class="alert alert-info">Note: does not currently indicate online status</p>
+  <ul class="users-list">
+  {{#each users}}
+    {{> userProfile}}
+  {{/each}}
+  </ul>
+</template>
+
+<template name="chatBox">
+    <form id="add-message-form" class="chatInputForm">
+        <input type="text" class="chatInputBox" id="message-input" placeholder="You got something to say?" autofocus />
+        <button class="chatInputAction btn btn-primary">Send</button>
+    </form>
+    <ul class="messages">
+        {{#each messages}}
+            <li class="message {{user}} {{unreadStatus}}">
+                <strong class="messenger">{{messenger}}: </strong>
+                <span class="message-body">{{body}}</span>
+            </li>
+        {{/each}}
+    </ul>
+</template>
+
+<template name="userProfile">
+    <li class="user">
+      <span class="email">{{email}}</span><span class="status">{{status}}</span>
+    </li>
+</template>
