@@ -43,7 +43,7 @@ function setActive (isActive) {
     Meteor.users.update(Meteor.user(), { $set: { profile : { active: isActive } }});
 }
 setActive(true);
-$(document).idleTimer();
+$(document).idleTimer(1000);
 $(document).on("active.idleTimer", function () { setActive(true); });
 $(document).on("idle.idleTimer", function () { setActive(false); });
 

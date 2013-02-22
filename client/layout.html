@@ -42,14 +42,16 @@
         <input type="text" class="chatInputBox" id="message-input" placeholder="You got something to say?" autofocus />
         <button class="chatInputAction btn btn-primary">Send</button>
     </form>
-    <ul class="messages">
-        {{#each messages}}
-            <li class="message {{user}} {{unreadStatus}}">
-                <strong class="messenger">{{messenger}}: </strong>
-                <span class="message-body">{{body}}</span>
-            </li>
-        {{/each}}
-    </ul>
+    <div class="messages-container">
+        <ul class="messages">
+            {{#each messages}}
+                <li class="message {{user}} {{unreadStatus}}">
+                    <strong class="messenger">{{messenger}}: </strong>
+                    <span class="message-body">{{body}}</span>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
 </template>
 
 <template name="userProfile">
