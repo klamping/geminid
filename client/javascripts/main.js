@@ -132,8 +132,28 @@ Template.chatBox.messenger = function () {
         username = this.author.emails[0].address;
     }
 
-
     return username;
+};
+
+Template.chatBox.timestamp = function () {
+    var time = this.time;
+
+    var date = new Date(time);
+
+    var hours = date.getHours();
+    var meridian = "AM";
+
+    if (hours > 12) {
+        hours -= 12;
+        meridian = "PM";
+    }
+
+    var minutes = ('0' + date.getMinutes()).slice(-2);
+    //var seconds = ('0' + date.getSeconds()).slice(-2);
+
+    var output = hours + ":" + minutes /*+ ":" + seconds*/ + " " + meridian;
+
+    return output;
 };
 
 Template.chatBox.user = function () {
