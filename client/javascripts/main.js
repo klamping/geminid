@@ -92,6 +92,12 @@ Template.chatBox.events = {
         if (ev.which == 13 && !ev.ctrlKey &&  !ev.shiftKey) {
             newMessage();
             ev.preventDefault();
+        } else {
+            // check for autocomplete names
+            // get last word being typed
+            // does it start with @?
+            // does it match against list of names
+            // autofill w/ gray screenname
         }
     },
     'click #add-message-form .chatInputAction': function(ev) {

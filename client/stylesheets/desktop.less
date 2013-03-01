@@ -293,11 +293,16 @@ body {
 
 .users {
   .flex(1);
-  margin-top: 1.5em;
   box-sizing: border-box;
-  padding: .5em 1em;
+  margin: 2em 1em 0.5em;
+  position: relative;
+
   .section-heading {
     margin: 0;
+  }
+
+  .alert {
+    padding-right: 1em;
   }
 }
 
@@ -313,4 +318,12 @@ body {
         padding: 0.25em;
         border-bottom: 1px solid #ccc;
     }
+}
+
+.alert-markdown {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  margin: 0;
 }
