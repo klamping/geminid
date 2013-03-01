@@ -48,7 +48,7 @@
             {{#each messages}}
                 <li class="message {{user}} {{unreadStatus}} clearfix">
                     <strong class="messenger">{{messenger}}: </strong>
-                    <span class="message-body">{{body}}</span>
+                    <div class="message-body">{{#markdown}}{{body}}{{/markdown}}</div>
                     <span class="message-timestamp">{{timestamp}}</span>
                 </li>
             {{/each}}

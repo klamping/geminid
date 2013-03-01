@@ -151,6 +151,20 @@ Template.chatBox.messenger = function () {
     return username;
 };
 
+function replaceURLWithHTMLLinks(text) {
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(exp,"[$1]($1)");
+}
+
+Template.chatBox.body = function () {
+    var body = this.body;
+
+    // convert all hyperlinks to html links
+    body = replaceURLWithHTMLLinks(body);
+
+    return body;
+};
+
 Template.chatBox.timestamp = function () {
     var time = this.time;
 
