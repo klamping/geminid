@@ -23,7 +23,9 @@
 
 <template name="loginPanel">
     <div class="login-panel btn {{loggedOut}}">
+        {{#if currentUser}}
         &nbsp;<i class="icon-{{meteor_status}}" title="Connection Status"></i>
+        {{/if}}
         {{loginButtons align="right"}}
     </div>
 </template>
