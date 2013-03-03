@@ -1,0 +1,319 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"un",
+				"unfinished"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"verti",
+				"vertical-align"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "layout.html",
+			"settings":
+			{
+				"buffer_size": 2280,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 327.0,
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Disable Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 567.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/klamping/Sites/TimelineJS/compiled/js/timeline.js",
+		"/Users/klamping/Sites/pbm-darts/pbm-darts.js",
+		"/Users/klamping/Desktop/html5tx-a11y/Semi-Transcript.md",
+		"/Users/klamping/Desktop/html5tx-a11y/speaker-notes",
+		"/Users/klamping/Sites/kevinlamping.com/js/timeline-min.js",
+		"/Users/klamping/Sites/kevinlamping.com/js/storyjs-embed.js",
+		"/Users/klamping/Sites/pbm-darts/pbm-darts.html",
+		"/Users/klamping/Sites/TimelineJS/source/js/VMM.Timeline.TimeNav.js",
+		"/Users/klamping/Sites/TimelineJS/source/js/VMM.Timeline.js",
+		"/Users/klamping/Sites/TimelineJS/source/js/VMM.Timeline.DataObj.js",
+		"/Users/klamping/Sites/TimelineJS/compiled/js/timeline-min.js",
+		"/Users/klamping/Sites/TimelineJS/compiled/js/storyjs-embed.js",
+		"/Users/klamping/Sites/TimelineJS/source/js/VMM.Timeline.License.js",
+		"/Users/klamping/Sites/Darts/server/publish.js",
+		"/Users/klamping/Sites/Darts/client/Runtime.coffee",
+		"/Users/klamping/Sites/Darts/client/Darts.html",
+		"/Users/klamping/Sites/Darts/tests/round.coffee",
+		"/Users/klamping/Sites/todos/server/bootstrap.js",
+		"/Users/klamping/Sites/Darts/tests/game.coffee",
+		"/Users/klamping/Sites/Darts/tests/kit.coffee",
+		"/Users/klamping/Sites/Darts/tests/match.coffee",
+		"/Users/klamping/Sites/Darts/tests/player.coffee",
+		"/Users/klamping/Sites/Darts/server/bootstrap.js",
+		"/Users/klamping/Sites/Darts/Darts.html",
+		"/Users/klamping/Sites/Darts/public/Runtime.coffee",
+		"/Users/klamping/Sites/todos/server/publish.js",
+		"/Users/klamping/Sites/Darts/darts.sublime-project",
+		"/Users/klamping/Sites/Darts/test/kit.coffee",
+		"/Users/klamping/Sites/Darts/test/game.coffee",
+		"/Users/klamping/Sites/Darts/test/round.coffee",
+		"/Users/klamping/Sites/Darts/test/player.coffee",
+		"/Users/klamping/Sites/Darts/test/match.coffee",
+		"/Users/klamping/Sites/Darts/test/mocha.opts",
+		"/Users/klamping/Sites/Darts/src/Round.coffee",
+		"/Users/klamping/Sites/Darts/src/Kit.coffee",
+		"/Users/klamping/Sites/kevinlamping.com/views/index.jade",
+		"/Users/klamping/Sites/kevinlamping.com/views/layout.jade",
+		"/Users/klamping/Desktop/main.css",
+		"/Users/klamping/Sites/Darts/test/test.coffee",
+		"/Users/klamping/Sites/Darts/lib/Kit.js",
+		"/Users/klamping/Downloads/demo/test/taskTest.coffee",
+		"/Users/klamping/Downloads/demo/src/task.coffee",
+		"/Users/klamping/Sites/Darts/Kit.coffee",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/css/style.kl.less",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/css/style.less",
+		"/Users/klamping/Downloads/nathansmith-960-Grid-System-b0c5b98/code/css/960.css",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/css/style.css",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/style.bak.css",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/style.bak.css.kl.css",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/css/style.kl.css",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/style.css",
+		"/Users/klamping/Sites/twistfund/sidebar.php",
+		"/Users/klamping/Sites/twistfund/functions.php",
+		"/Users/klamping/Sites/twistfund/www/wp-content/themes/Starkers/functions.php",
+		"/Users/klamping/Sites/twistfund/www/wp-content/themes/Starkers/sidebar.php",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/content-gallery.php",
+		"/Users/klamping/Sites/708studios/wordpress/wp-content/themes/708studios/assets/css/main.css",
+		"/Users/klamping/Dropbox/www/studio11/jquery.js",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/content-gallery-kl.php",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/js/jquery.simplyscroll.1.5.min.js",
+		"/Users/klamping/Dropbox/www/studio11/htdocs/wp-content/themes/Studio 11/intro/intro.html",
+		"/Library/WebServer/Documents/phpMyAdmin/config.inc.php",
+		"/Users/klamping/Sites/wordpress/.htaccess",
+		"/Users/klamping/Sites/wordpress/wp-config.php",
+		"/Users/klamping/Sites/twistfund/www/wp-config-sample.php"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"/Users/klamping/Sites/TimelineJS/source"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"img",
+			"detachMessege",
+			"onExplainerClick",
+			"touchmovetouchmove",
+			"touchmove",
+			"touch",
+			"drag",
+			"swipe",
+			"VMM.bindEvent($explainer, onExplainerClick);",
+			"hideMessege",
+			"bindEvent",
+			"onExplainerClick",
+			"bindEvent",
+			"bindEventy",
+			"explainer",
+			"bindEvent",
+			"VMM",
+			"VMM=",
+			"VMM =",
+			"VMM -",
+			"bindEvent",
+			"chess",
+			"updated",
+			"score",
+			"@m1.games.at('1')",
+			"shoul",
+			"message",
+			";",
+			"h-v3",
+			"page-template-home-php",
+			"logo-v2",
+			"logo",
+			";\">",
+			"intro",
+			"swf",
+			"twitter",
+			"company",
+			"pagination1",
+			"font-weight: bol",
+			"gallery",
+			"site-intro",
+			"url"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"ches",
+			"game"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "layout.html",
+					"settings":
+					{
+						"buffer_size": 2280,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 124.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
