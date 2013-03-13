@@ -82,8 +82,17 @@ Template.userProfile.email = function() {
     return displayName;
 };
 Template.userProfile.status = function () {
-    var isFocused = this.profile ? this.profile.active : false;
-    return isFocused ? "" : " (idle)";
+    if (!this.profile) {
+        return '';
+    }
+
+    if (this.profile.online === false) {
+        return " (offline)";
+    } else if (this.profile.active === false) {
+        console.log(this.profile.active)
+        return " (idle)";
+    }
+    return '';
 };
 
 

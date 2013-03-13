@@ -1,0 +1,19 @@
+{
+  "meteor": {
+    "git": "https://github.com/meteor/meteor.git",
+    "branch": "master",
+    "commit": "2d8b41a87cec884489ead138b5dfea31487363f3"
+  },
+  "dependencies": {
+    "basePackages": {
+      "profile-online": {}
+    },
+    "packages": {
+      "profile-online": {
+        "git": "https://github.com/erundook/meteor-profile-online.git",
+        "tag": "v0.1.6",
+        "commit": "a58ee269a5481e82e015b3a3fa1f930bcca68efa"
+      }
+    }
+  }
+}
