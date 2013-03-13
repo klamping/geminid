@@ -116,6 +116,7 @@ Template.chatBox.events = {
 
 Template.chatBox.created = function () {
     setLastRead();
+    scrollChat();
 };
 
 Template.chatBox.rendered = function () {
