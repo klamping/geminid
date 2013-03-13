@@ -89,7 +89,6 @@ Template.userProfile.status = function () {
     if (this.profile.online === false) {
         return " (offline)";
     } else if (this.profile.active === false) {
-        console.log(this.profile.active)
         return " (idle)";
     }
     return '';
@@ -121,7 +120,7 @@ Template.chatBox.created = function () {
 };
 
 Template.chatBox.rendered = function () {
-    if (Session.get('autoScrollChat')) {
+    if (shouldAutoScroll()) {
         scrollChat();
     }
 };
@@ -211,14 +210,16 @@ Messages.find({}).observe({
         if (Session.get("isWindowFocused") === false) {
             setUnreadCount();
         }
-
-        var chat = $('.messages');
-        var scrollHeight = chat.prop("scrollHeight");
-        var scrollTop = chat.prop("scrollTop");
-        var height = chat.height();
-        Session.set('autoScrollChat', (height + scrollTop === scrollHeight));
     }
 });
+
+var shouldAutoScroll = function () {
+    var chat = $('.messages');
+    var scrollHeight = chat.prop("scrollHeight");
+    var scrollTop = chat.prop("scrollTop");
+    var height = chat.height();
+    return (height + scrollTop) >= scrollHeight - 2;
+}
 
 var newMessage = function() {
     var input = document.getElementById('message-input');
