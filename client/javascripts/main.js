@@ -218,7 +218,7 @@ var shouldAutoScroll = function () {
     var scrollHeight = chat.prop("scrollHeight");
     var scrollTop = chat.prop("scrollTop");
     var height = chat.height();
-    return (height + scrollTop) >= scrollHeight - 2;
+    return (height + scrollTop) > scrollHeight - 200;
 }
 
 var newMessage = function() {
