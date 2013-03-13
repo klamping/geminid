@@ -126,8 +126,8 @@ Template.chatBox.rendered = function () {
 };
 
 Template.chatBox.messages = function () {
-    return Messages.find({}, { sort: { time: -1 }, limit: 200 });
-    //return Messages.find({}, { sort: { time: 1 } });
+    //return Messages.find({}, { sort: { time: -1 }, limit: 200 });
+    return Messages.find({}, { sort: { time: 1 } });
 };
 
 Template.chatBox.unreadStatus = function () {
