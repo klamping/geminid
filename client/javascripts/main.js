@@ -10,24 +10,35 @@
         document.addEventListener("webkitvisibilitychange", onchange);
     else if ((hidden = "msHidden") in document)
         document.addEventListener("msvisibilitychange", onchange);
+
+    // since user is loading webpage, assume window is focused
+    Session.set('isWindowFocused', document.hasFocus());
 }());
 
+/* Define how user should sign up to website */
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
 });
 
+function getUnreadMessageCount(lastViewTime) {
+    var unreadCount = 0;
+    
+    unreadCount = Messages.find({ time: { $gt: lastViewTime }}).count();
+    
+    return unreadCount;
+}
+
 function setUnreadCount () {
     var lastViewed = Session.get("lastViewTime");
+    var count = getUnreadMessageCount(lastViewed);
 
-    var unread = Messages.find({ time: { $gt: lastViewed }}).count();
+    var text = "Chat";
 
-    var text = "";
-
-    if (unread > 0 && Session.get('isWindowFocused') === false) {
-        text = " (" + unread + ")";
+    if (count > 0 && !document.hasFocus()) {
+        text = text + " (" + count + ")";
     }
 
-    document.title = "Chat" + text;
+    document.title = text;
 }
 
 function scrollChat () {
