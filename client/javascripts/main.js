@@ -14,15 +14,41 @@ else if ((hidden = "msHidden") in document) {
     document.addEventListener("msvisibilitycha£nge", onFocusChange);
 }
 
-// get initial focus state
-Session.set('isWindowFocused', true);
+var isIdle = false;
 
+// set initial focus state to true
+setInterval(function () {
+    if (!isIdle) {
+        setActive(!document[hidden]);
+    }
+}, 1500);
+
+function setLastRead () {
+    Session.set("lastViewTime", Date.now());
+}
+
+function setActive (isActive) {
+    // check to see if active state has changed
+    if (Meteor.user()) {
+        if (Meteor.user().profile.active !== isActive) {
+            Meteor.users.update(Meteor.user(), { $set: { profile : { active: isActive } }});
+        }
+    }
+}
+setActive(true);
+$(document).idleTimer();
+$(document).on("active.idleTimer", function () {
+    isIdle = false;
+    setActive(true);
+});
+$(document).on("idle.idleTimer", function () {
+    isIdle = true;
+    setActive(false);
+});
 
 /* Functionality for use by templates */
 function onFocusChange () {
     Session.set('lastViewTime', Date.now());
-
-    Session.set('isWindowFocused', !document[hidden]);
     setActive(!document[hidden], Meteor.user());
 }
 
@@ -67,7 +93,7 @@ function setUnreadCount () {
 
     var text = "Chat";
 
-    if (count > 0 && !Session.get("isWindowFocused")) {
+    if (count > 0 && document[hidden]) {
         text = "(" + count + ") " + text;
     }
 
@@ -76,23 +102,8 @@ function setUnreadCount () {
 
 function scrollChat () {
     var chat = $('.messages');
-    console.log(chat.prop('scrollHeight'))
     chat.prop("scrollTop", chat.prop("scrollHeight"));
 }
-
-function setLastRead () {
-    Session.set("lastViewTime", Date.now());
-}
-
-function setActive (isActive) {
-    Meteor.users.update(Meteor.user(), { $set: { profile : { active: isActive } }});
-}
-setActive(true);
-$(document).idleTimer();
-$(document).on("active.idleTimer", function () { setActive(true); });
-$(document).on("idle.idleTimer", function () { setActive(false); });
-
-
 
 /* Define how user should sign up to website */
 Accounts.ui.config({
@@ -102,7 +113,6 @@ Accounts.ui.config({
 /* Add message listener to add unread count */
 Messages.find({}).observe({
     added: function () {
-        console.log('message added: ' + shouldAutoScroll($('.messages')));
         setUnreadCount();
     }
 });
