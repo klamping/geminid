@@ -104,11 +104,8 @@ function setUnreadCount () {
 function shouldAutoScroll (container) {
     if (container) {
         var scrollHeight = container.prop("scrollHeight");
-        // console.log("scrollHeight: " + scrollHeight)
         var scrollTop = container.prop("scrollTop");
-        // console.log("scrollTop: " + scrollTop)
         var height = container.height();
-        // console.log("height: " + height)
 
         if (height === null) {
             return true;
