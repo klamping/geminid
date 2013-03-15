@@ -1,5 +1,5 @@
 Meteor.publish("messages", function () {
-  return Messages.find({}, { sort: { time: -1 }, limit: 200 });
+  return Messages.find({});
 });
 
 Meteor.publish("allusers", function () {

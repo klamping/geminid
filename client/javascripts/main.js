@@ -3,6 +3,9 @@
 Meteor.subscribe("messages");
 Meteor.subscribe("allusers");
 
+var timeLoaded = Date.now();
+Session.set("MessageCountLimit", 10);
+
 var hidden = "hidden";
 
 // Set up listeners for window focus change
@@ -129,10 +132,13 @@ Accounts.ui.config({
 });
 
 /* Add message listener to add unread count */
-Messages.find({}).observe({
-    added: function () {
+Messages.find({}).observeChanges({
+    added: function (message) {
         Session.set("shouldScroll", shouldAutoScroll($('.messages')));
 
+        if (Messages.findOne(message).time > timeLoaded) {
+            Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
+        }
         setUnreadCount();
     }
 });
@@ -221,9 +227,10 @@ Template.chatBox.rendered = function () {
 };
 
 Template.chatBox.messages = function () {
-    var messages = Messages.find({}, { sort: { time: 1 }});
+    //var messages = Messages.find({}, { sort: { time: 1 }});
+    var messageLimit = Session.get("MessageCountLimit");
 
-    return messages;
+    return Messages.find({}, { sort: { time: -1 }, limit: messageLimit }).fetch().reverse();
 };
 
 Template.chatBox.unreadStatus = function () {
