@@ -277,9 +277,12 @@ body {
     padding: .5em 0;
     color: #bbb;
     font-style: italic;
-    border: solid #eee;
-    border-width: 1px 0;
-    margin: 1px 0;
+  }
+  .newDay + .message {
+    border-top: 1px solid #efefef;
+  }
+  .newDay + .message.user {
+    border-top: 0;
   }
 
   .chatInputForm {
