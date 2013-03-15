@@ -285,3 +285,31 @@ Template.chatBox.timestamp = function () {
 Template.chatBox.user = function () {
     return this.author._id === Meteor.user()._id ? "user" : "";
 };
+
+function isSameDay (date1, date2) {
+    return ((date1.getFullYear()==date2.getFullYear())&&(date1.getMonth()==date2.getMonth())&&(date1.getDate()==date2.getDate()));
+}
+
+previousPostedTime = new Date(0);
+Template.chatBox.newDay = function () {
+    var isNewDay = false;
+
+    // convert time for message to day
+    var postedTime = new Date(this.time);
+
+    // compare against previous time
+    if (!isSameDay(postedTime, previousPostedTime)) {
+        // if different, post result
+        isNewDay = true;
+    }
+
+    previousPostedTime = postedTime;
+
+    return isNewDay;
+};
+
+Template.chatBox.dayStamp = function () {
+    var postedTime = new Date(this.time);
+
+    return $.datepicker.formatDate('DD, MM d, yy', postedTime);
+};

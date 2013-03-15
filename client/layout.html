@@ -50,6 +50,11 @@
     <div class="messages-container">
         <ul class="messages">
             {{#each messages}}
+                {{#if newDay}}
+                <li class="newDay">
+                    {{dayStamp}}
+                </li>
+                {{/if}}
                 <li class="message {{user}} {{unreadStatus}} clearfix">
                     <strong class="messenger">{{messenger}}: </strong>
                     <div class="message-body">{{#markdown}}{{body}}{{/markdown}}</div>
