@@ -1,5 +1,8 @@
 /* DISCLAIMER: This code is in need of some serious clean-up and re-organizing. Right now, all of this is just a POC. A rewrite may be in the future */
 
+Meteor.subscribe("messages");
+Meteor.subscribe("allusers");
+
 var hidden = "hidden";
 
 // Set up listeners for window focus change
@@ -33,7 +36,7 @@ function setActive (isActive) {
     if (Meteor.user()) {
         // check to see if active state has changed since last setting
         if (Meteor.user().profile.active !== isActive) {
-            Meteor.users.update(Meteor.user(), { $set: { profile : { active: isActive } }});
+            AllUsers.update(Meteor.user(), { $set: { profile : { active: isActive } }});
         }
     }
 }
@@ -157,7 +160,7 @@ Template.loginPanel.loggedOut = function () {
 
 
 Template.allUsers.users = function() {
-    return Meteor.users.find();
+    return AllUsers.find();
 };
 
 
@@ -218,8 +221,9 @@ Template.chatBox.rendered = function () {
 };
 
 Template.chatBox.messages = function () {
-    //return Messages.find({}, { sort: { time: -1 }, limit: 200 });
-    return Messages.find({}, { sort: { time: 1 } });
+    var messages = Messages.find({}, { sort: { time: 1 }});
+
+    return messages;
 };
 
 Template.chatBox.unreadStatus = function () {
@@ -229,12 +233,12 @@ Template.chatBox.unreadStatus = function () {
 };
 
 Template.chatBox.messenger = function () {
-    var user = Meteor.users.findOne({ _id: this.author._id});
+    var user = AllUsers.findOne({ _id: this.author._id});
     var username = "";
 
     if (this.author._id === Meteor.user()._id) {
         username = "Me";
-    } else if ("username" in user) {
+    } else if (user && "username" in user) {
         username = user.username;
     } else if ("emails" in this.author) {
         username = this.author.emails[0].address;
