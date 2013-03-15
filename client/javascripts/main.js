@@ -1,3 +1,5 @@
+/* DISCLAIMER: This code is in need of some serious clean-up and re-organizing. Right now, all of this is just a POC. A rewrite may be in the future */
+
 var hidden = "hidden";
 
 // Set up listeners for window focus change
@@ -28,8 +30,8 @@ function setLastRead () {
 }
 
 function setActive (isActive) {
-    // check to see if active state has changed
     if (Meteor.user()) {
+        // check to see if active state has changed since last setting
         if (Meteor.user().profile.active !== isActive) {
             Meteor.users.update(Meteor.user(), { $set: { profile : { active: isActive } }});
         }
@@ -55,13 +57,6 @@ function onFocusChange () {
 function replaceURLWithHTMLLinks(text) {
     var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
     return text.replace(exp,"[$1]($1)");
-}
-
-function shouldAutoScroll (container) {
-    var scrollHeight = container.prop("scrollHeight");
-    var scrollTop = container.prop("scrollTop");
-    var height = container.height();
-    return (height + scrollTop) > scrollHeight - 200;
 }
 
 function newMessage () {
@@ -100,9 +95,29 @@ function setUnreadCount () {
     document.title = text;
 }
 
-function scrollChat () {
-    var chat = $('.messages');
-    chat.prop("scrollTop", chat.prop("scrollHeight"));
+function shouldAutoScroll (container) {
+    if (container) {
+        var scrollHeight = container.prop("scrollHeight");
+        // console.log("scrollHeight: " + scrollHeight)
+        var scrollTop = container.prop("scrollTop");
+        // console.log("scrollTop: " + scrollTop)
+        var height = container.height();
+        // console.log("height: " + height)
+
+        if (height === null) {
+            return true;
+        }
+
+        return (height + scrollTop) > scrollHeight - 50;
+    }
+}
+
+function scrollToBottom (container) {
+    if (container.length > 0) {
+        container.prop("scrollTop", container.prop("scrollHeight"));
+    } else {
+        // nothing to scroll
+    }
 }
 
 /* Define how user should sign up to website */
@@ -113,6 +128,8 @@ Accounts.ui.config({
 /* Add message listener to add unread count */
 Messages.find({}).observe({
     added: function () {
+        Session.set("shouldScroll", shouldAutoScroll($('.messages')));
+
         setUnreadCount();
     }
 });
@@ -170,8 +187,6 @@ Template.userProfile.status = function () {
 };
 
 
-
-
 Template.chatBox.events = {
     'keydown #add-message-form .chatInputBox': function(ev) {
         if (ev.which == 13 && !ev.ctrlKey &&  !ev.shiftKey) {
@@ -195,9 +210,10 @@ Template.chatBox.created = function () {
     setLastRead();
 };
 
+// Rendered is called after a new message is added to the list (since it has to re-render itself)
 Template.chatBox.rendered = function () {
-    if (shouldAutoScroll($('.messages'))) {
-        scrollChat();
+    if (Session.get("shouldScroll")) {
+        scrollToBottom($('.messages'));
     }
 };
 
@@ -207,7 +223,8 @@ Template.chatBox.messages = function () {
 };
 
 Template.chatBox.unreadStatus = function () {
-    var isNew = this.time > Session.get("lastViewTime");
+    var lastViewTime = Session.get("lastViewTime");
+    var isNew = this.time > lastViewTime;
     return isNew ? "unread" : "read";
 };
 
