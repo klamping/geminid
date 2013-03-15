@@ -268,7 +268,9 @@ Template.chatBox.timestamp = function () {
     var hours = date.getHours();
     var meridian = "AM";
 
-    if (hours > 12) {
+    if (hours === 0) {
+        hours = 12;
+    } else if (hours > 12) {
         hours -= 12;
         meridian = "PM";
     }
