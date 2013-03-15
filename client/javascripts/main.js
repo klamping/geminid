@@ -1,30 +1,63 @@
-(function () {
-    var hidden = "hidden";
+var hidden = "hidden";
 
-    // Standards:
-    if (hidden in document)
-        document.addEventListener("visibilitychange", onchange);
-    else if ((hidden = "mozHidden") in document)
-        document.addEventListener("mozvisibilitychange", onchange);
-    else if ((hidden = "webkitHidden") in document)
-        document.addEventListener("webkitvisibilitychange", onchange);
-    else if ((hidden = "msHidden") in document)
-        document.addEventListener("msvisibilitychange", onchange);
+// Set up listeners for window focus change
+if (hidden in document){
+    document.addEventListener("visibilitychange", onFocusChange);
+}
+else if ((hidden = "mozHidden") in document) {
+    document.addEventListener("mozvisibilitychange", onFocusChange);
+}
+else if ((hidden = "webkitHidden") in document){
+    document.addEventListener("webkitvisibilitychange", onFocusChange);
+}
+else if ((hidden = "msHidden") in document) {
+    document.addEventListener("msvisibilitycha£nge", onFocusChange);
+}
 
-    // since user is loading webpage, assume window is focused
-    Session.set('isWindowFocused', document.hasFocus());
-}());
+// get initial focus state
+Session.set('isWindowFocused', true);
 
-/* Define how user should sign up to website */
-Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
-});
+
+/* Functionality for use by templates */
+function onFocusChange () {
+    Session.set('lastViewTime', Date.now());
+
+    Session.set('isWindowFocused', !document[hidden]);
+    setActive(!document[hidden], Meteor.user());
+}
+
+function replaceURLWithHTMLLinks(text) {
+    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(exp,"[$1]($1)");
+}
+
+function shouldAutoScroll (container) {
+    var scrollHeight = container.prop("scrollHeight");
+    var scrollTop = container.prop("scrollTop");
+    var height = container.height();
+    return (height + scrollTop) > scrollHeight - 200;
+}
+
+function newMessage () {
+    var input = document.getElementById('message-input');
+
+    if(input.value !== '') {
+        Messages.insert({
+            author: Meteor.user(),
+            body: input.value,
+            time: Date.now()
+        });
+        setLastRead();
+    }
+
+    input.value = '';
+}
 
 function getUnreadMessageCount(lastViewTime) {
     var unreadCount = 0;
-    
+
     unreadCount = Messages.find({ time: { $gt: lastViewTime }}).count();
-    
+
     return unreadCount;
 }
 
@@ -34,8 +67,8 @@ function setUnreadCount () {
 
     var text = "Chat";
 
-    if (count > 0 && !document.hasFocus()) {
-        text = text + " (" + count + ")";
+    if (count > 0 && !Session.get("isWindowFocused")) {
+        text = "(" + count + ") " + text;
     }
 
     document.title = text;
@@ -43,6 +76,7 @@ function setUnreadCount () {
 
 function scrollChat () {
     var chat = $('.messages');
+    console.log(chat.prop('scrollHeight'))
     chat.prop("scrollTop", chat.prop("scrollHeight"));
 }
 
@@ -57,6 +91,21 @@ setActive(true);
 $(document).idleTimer();
 $(document).on("active.idleTimer", function () { setActive(true); });
 $(document).on("idle.idleTimer", function () { setActive(false); });
+
+
+
+/* Define how user should sign up to website */
+Accounts.ui.config({
+  passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+});
+
+/* Add message listener to add unread count */
+Messages.find({}).observe({
+    added: function () {
+        console.log('message added: ' + shouldAutoScroll($('.messages')));
+        setUnreadCount();
+    }
+});
 
 Template.loginPanel.meteor_status = function () {
     var icon;
@@ -78,9 +127,13 @@ Template.loginPanel.loggedOut = function () {
     return Meteor.user() === null ? "logged-out" : "";
 };
 
+
+
 Template.allUsers.users = function() {
     return Meteor.users.find();
 };
+
+
 
 Template.userProfile.email = function() {
     var displayName = "";
@@ -92,6 +145,7 @@ Template.userProfile.email = function() {
     }
     return displayName;
 };
+
 Template.userProfile.status = function () {
     if (!this.profile) {
         return '';
@@ -104,6 +158,8 @@ Template.userProfile.status = function () {
     }
     return '';
 };
+
+
 
 
 Template.chatBox.events = {
@@ -127,11 +183,10 @@ Template.chatBox.events = {
 
 Template.chatBox.created = function () {
     setLastRead();
-    scrollChat();
 };
 
 Template.chatBox.rendered = function () {
-    if (shouldAutoScroll()) {
+    if (shouldAutoScroll($('.messages'))) {
         scrollChat();
     }
 };
@@ -145,22 +200,6 @@ Template.chatBox.unreadStatus = function () {
     var isNew = this.time > Session.get("lastViewTime");
     return isNew ? "unread" : "read";
 };
-
-function onchange () {
-    var state = this.visibilityState || this.webkitVisibilityState || this.mozVisibilityState;
-
-    Session.set('lastViewTime', Date.now());
-    if (state === "visible") {
-        Session.set('isWindowFocused', true);
-        setActive(true, Meteor.user());
-        setUnreadCount();
-    }
-    else {
-        Session.set('isWindowFocused', false);
-        setActive(false, Meteor.user());
-        setUnreadCount();
-    }
-}
 
 Template.chatBox.messenger = function () {
     var user = Meteor.users.findOne({ _id: this.author._id});
@@ -176,11 +215,6 @@ Template.chatBox.messenger = function () {
 
     return username;
 };
-
-function replaceURLWithHTMLLinks(text) {
-    var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
-    return text.replace(exp,"[$1]($1)");
-}
 
 Template.chatBox.body = function () {
     var body = this.body;
@@ -205,7 +239,6 @@ Template.chatBox.timestamp = function () {
     }
 
     var minutes = ('0' + date.getMinutes()).slice(-2);
-    //var seconds = ('0' + date.getSeconds()).slice(-2);
 
     var output = hours + ":" + minutes /*+ ":" + seconds*/ + " " + meridian;
 
@@ -214,35 +247,4 @@ Template.chatBox.timestamp = function () {
 
 Template.chatBox.user = function () {
     return this.author._id === Meteor.user()._id ? "user" : "";
-};
-
-Messages.find({}).observe({
-    added: function () {
-        if (Session.get("isWindowFocused") === false) {
-            setUnreadCount();
-        }
-    }
-});
-
-var shouldAutoScroll = function () {
-    var chat = $('.messages');
-    var scrollHeight = chat.prop("scrollHeight");
-    var scrollTop = chat.prop("scrollTop");
-    var height = chat.height();
-    return (height + scrollTop) > scrollHeight - 200;
-}
-
-var newMessage = function() {
-    var input = document.getElementById('message-input');
-
-    if(input.value !== '') {
-        Messages.insert({
-            author: Meteor.user(),
-            body: input.value,
-            time: Date.now()
-        });
-        setLastRead();
-    }
-
-    input.value = '';
 };
