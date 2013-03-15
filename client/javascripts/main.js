@@ -4,7 +4,7 @@ Meteor.subscribe("messages");
 Meteor.subscribe("allusers");
 
 var timeLoaded = Date.now();
-Session.set("MessageCountLimit", 10);
+Session.set("MessageCountLimit", 200);
 
 var hidden = "hidden";
 
