@@ -258,6 +258,13 @@ Template.chatBox.body = function () {
 Template.chatBox.timestamp = function () {
     var time = this.time;
 
+    var formatted = formatTime(time);
+
+    return formatted;
+};
+
+
+function formatTime (time) {
     var date = new Date(time);
 
     var hours = date.getHours();
@@ -265,8 +272,10 @@ Template.chatBox.timestamp = function () {
 
     if (hours === 0) {
         hours = 12;
-    } else if (hours > 12) {
-        hours -= 12;
+    } else if (hours >= 12) {
+        if (hours > 12) {
+            hours -= 12;
+        }
         meridian = "PM";
     }
 
@@ -275,7 +284,7 @@ Template.chatBox.timestamp = function () {
     var output = hours + ":" + minutes /*+ ":" + seconds*/ + " " + meridian;
 
     return output;
-};
+}
 
 Template.chatBox.user = function () {
     return this.author._id === Meteor.user()._id ? "user" : "";
