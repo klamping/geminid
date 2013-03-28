@@ -189,7 +189,7 @@ Template.userProfile.status = function () {
 
 
 Template.chatBox.events = {
-    'keydown #add-message-form .chatInputBox': function(ev) {
+    'keypress .chatInputBox': function(ev) {
         if (ev.which == 13 && !ev.ctrlKey &&  !ev.shiftKey) {
             newMessage();
             ev.preventDefault();
