@@ -1,31 +1,30 @@
-function shouldAutoScroll (container) {
-    if (typeof container !== "undefined") {
-        var scrollHeight = container.prop("scrollHeight");
-        var scrollTop = container.prop("scrollTop");
-        var height = container.height();
+var domUtils = {
+    shouldAutoScroll: function (container) {
+        if (typeof container !== "undefined") {
+            var scrollHeight = container.prop("scrollHeight");
+            var scrollTop = container.prop("scrollTop");
+            var height = container.height();
 
-        if (height === null) {
-            return true;
+            if (height === null) {
+                return true;
+            }
+
+            return (height + scrollTop) >= scrollHeight;
         }
 
-        return (height + scrollTop) >= scrollHeight;
+        return false;
+    },
+    scrollToBottom: function (container) {
+        if (container.length > 0) {
+            this.scrollTo(container, container.prop("scrollHeight"));
+        }
+    },
+    scrollTo: function (container, scrollPos) {
+      container.prop("scrollTop", scrollPos);
     }
-
-    return false;
-}
-
-function scrollToBottom (container) {
-    if (container.length > 0) {
-        scrollTo(container, container.prop("scrollHeight"));
-    }
-}
-
-function scrollTo (container, scrollPos) {
-    container.prop("scrollTop", scrollPos);
-}
+};
 
 
 if (typeof exports !== "undefined") {
-    exports.shouldAutoScroll = shouldAutoScroll;
-    exports.scrollToBottom = scrollToBottom;
+    exports.domUtils = domUtils;
 }

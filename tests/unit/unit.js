@@ -3,7 +3,7 @@ chai.should();
 
 var messageUtils = require("../../client/javascripts/message-formatting.js");
 var timeUtils = require("../../client/javascripts/time-formatting.js");
-var domUtils = require("../../client/javascripts/dom-utils.js");
+var domUtils = require("../../client/javascripts/dom-utils.js").domUtils;
 
 describe('Geminid', function () {
     // message formatting
@@ -93,6 +93,14 @@ describe('Geminid', function () {
             var cont = createContainer(800, 800, 200);
             domUtils.scrollToBottom(cont);
             cont.scrollTop.should.equal(800);
+        });
+    });
+
+    describe("#scrollTo", function () {
+        it("should scroll to position", function () {
+            var cont = createContainer(800, 0, 200);
+            domUtils.scrollTo(cont, 200);
+            cont.scrollTop.should.equal(200);
         });
     });
 });

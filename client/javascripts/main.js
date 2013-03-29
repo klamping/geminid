@@ -104,7 +104,7 @@ Accounts.ui.config({
 /* Add message listener to add unread count */
 Messages.find({}).observeChanges({
     added: function (message) {
-        Session.set("shouldScroll", shouldAutoScroll($('.messages')));
+        Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
         Session.set("prevScroll", $('.messages').prop("scrollTop"));
 
         if (Messages.findOne(message).time > timeLoaded) {
@@ -196,9 +196,9 @@ Template.chatBox.rendered = function () {
     //console.log(messageContainer.prop("scrollTop"));
     if (Session.get("shouldScroll")) {
       //  console.log('scrolling');
-        scrollToBottom(messageContainer);
+        domUtils.scrollToBottom(messageContainer);
     } else {
-        scrollTo(messageContainer, Session.get("prevScroll"));
+        domUtils.scrollTo(messageContainer, Session.get("prevScroll"));
     }
 };
 
