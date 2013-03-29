@@ -51,23 +51,28 @@ describe('Geminid', function () {
         });
     });
 
-    describe("#shouldAutoScroll", function () {
-
-        // create a mock of jquery behavior
-        var createContainer = function (scrollHeight, scrollTop, height) {
-            return {
-                scrollHeight: scrollHeight,
-                scrollTop: scrollTop,
-                contHeight: height,
-                prop : function (attr) {
-                    return this[attr];
-                },
-                height: function () {
-                    return this.contHeight;
+    // Dom Utils
+    // create a mock of jquery behavior
+    var createContainer = function (scrollHeight, scrollTop, height) {
+        return {
+            scrollHeight: scrollHeight,
+            scrollTop: scrollTop,
+            contHeight: height,
+            length: 1,
+            prop : function (attr, value) {
+                if (typeof value !== "undefined") {
+                    this[attr] = value;
                 }
-            };
-        };
 
+                return this[attr];
+            },
+            height: function () {
+                return this.contHeight;
+            }
+        };
+    };
+
+    describe("#shouldAutoScroll", function () {
         it("should scroll when scrolled to the bottom of the container", function () {
             var cont = createContainer(800, 600, 200);
             domUtils.shouldAutoScroll(cont).should.equal(true);
@@ -75,6 +80,19 @@ describe('Geminid', function () {
         it("should not scroll when not scrolled to the bottom of the container", function () {
             var cont = createContainer(800, 588, 200);
             domUtils.shouldAutoScroll(cont).should.equal(false);
+        });
+    });
+
+    describe("#scrollToBottom", function () {
+        it("should scroll to bottom of container if not there", function () {
+            var cont = createContainer(800, 0, 200);
+            domUtils.scrollToBottom(cont);
+            cont.scrollTop.should.equal(800);
+        });
+        it("should scroll to bottom of container if already there", function () {
+            var cont = createContainer(800, 800, 200);
+            domUtils.scrollToBottom(cont);
+            cont.scrollTop.should.equal(800);
         });
     });
 });

@@ -96,23 +96,16 @@ function setUnreadCount () {
     document.title = text;
 }
 
-function scrollToBottom (container) {
-    if (container.length > 0) {
-        container.prop("scrollTop", container.prop("scrollHeight"));
-    } else {
-        // nothing to scroll
-    }
-}
-
 /* Define how user should sign up to website */
 Accounts.ui.config({
-  passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+    passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
 });
 
 /* Add message listener to add unread count */
 Messages.find({}).observeChanges({
     added: function (message) {
         Session.set("shouldScroll", shouldAutoScroll($('.messages')));
+        Session.set("prevScroll", $('.messages').prop("scrollTop"));
 
         if (Messages.findOne(message).time > timeLoaded) {
             Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
@@ -199,9 +192,14 @@ Template.chatBox.created = function () {
 
 // Rendered is called after a new message is added to the list (since it has to re-render itself)
 Template.chatBox.rendered = function () {
-  //  if (Session.get("shouldScroll")) {
-        scrollToBottom($('.messages'));
-    //}
+    var messageContainer = $('.messages');
+    //console.log(messageContainer.prop("scrollTop"));
+    if (Session.get("shouldScroll")) {
+      //  console.log('scrolling');
+        scrollToBottom(messageContainer);
+    } else {
+        scrollTo(messageContainer, Session.get("prevScroll"));
+    }
 };
 
 Template.chatBox.messages = function () {

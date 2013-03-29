@@ -20,6 +20,6 @@ function formatTime (time) {
     return output;
 }
 
-if (typeof exports !== "undefined`") {
+if (typeof exports !== "undefined") {
     exports.formatTime = formatTime;
 }

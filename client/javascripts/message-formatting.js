@@ -5,6 +5,6 @@ function replaceURLWithHTMLLinks(text) {
     return text.replace(exp,"$1[$2]($2)");
 }
 
-if (typeof exports !== "undefined`") {
+if (typeof exports !== "undefined") {
     exports.replaceURLWithHTMLLinks = replaceURLWithHTMLLinks;
 }
