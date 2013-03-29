@@ -96,20 +96,6 @@ function setUnreadCount () {
     document.title = text;
 }
 
-function shouldAutoScroll (container) {
-    if (container) {
-        var scrollHeight = container.prop("scrollHeight");
-        var scrollTop = container.prop("scrollTop");
-        var height = container.height();
-
-        if (height === null) {
-            return true;
-        }
-
-        return (height + scrollTop) > scrollHeight - 50;
-    }
-}
-
 function scrollToBottom (container) {
     if (container.length > 0) {
         container.prop("scrollTop", container.prop("scrollHeight"));
@@ -213,9 +199,9 @@ Template.chatBox.created = function () {
 
 // Rendered is called after a new message is added to the list (since it has to re-render itself)
 Template.chatBox.rendered = function () {
-    if (Session.get("shouldScroll")) {
+  //  if (Session.get("shouldScroll")) {
         scrollToBottom($('.messages'));
-    }
+    //}
 };
 
 Template.chatBox.messages = function () {
@@ -262,29 +248,6 @@ Template.chatBox.timestamp = function () {
 
     return formatted;
 };
-
-
-function formatTime (time) {
-    var date = new Date(time);
-
-    var hours = date.getHours();
-    var meridian = "AM";
-
-    if (hours === 0) {
-        hours = 12;
-    } else if (hours >= 12) {
-        if (hours > 12) {
-            hours -= 12;
-        }
-        meridian = "PM";
-    }
-
-    var minutes = ('0' + date.getMinutes()).slice(-2);
-
-    var output = hours + ":" + minutes /*+ ":" + seconds*/ + " " + meridian;
-
-    return output;
-}
 
 Template.chatBox.user = function () {
     return this.author._id === Meteor.user()._id ? "user" : "";
