@@ -60,9 +60,7 @@ function onFocusChange () {
     setActive(!document[hidden], Meteor.user());
 }
 
-function newMessage () {
-    var input = document.getElementById('message-input');
-
+function newMessage (input) {
     if(input.value !== '') {
         Messages.insert({
             author: Meteor.user(),
@@ -70,9 +68,8 @@ function newMessage () {
             time: Date.now()
         });
         setLastRead();
+        input.value = '';
     }
-
-    input.value = '';
 }
 
 function getUnreadMessageCount(lastViewTime) {
@@ -168,23 +165,52 @@ Template.userProfile.status = function () {
 
 
 Template.chatBox.events = {
-    'keypress .chatInputBox': function(ev) {
+    'keydown .chatInputBox': function(ev) {
+        var messageBox = ev.target;
         if (ev.which == 13 && !ev.ctrlKey &&  !ev.shiftKey) {
-            newMessage();
+            newMessage(messageBox);
             ev.preventDefault();
-        } else {
-            // check for autocomplete names
-            // get last word being typed
-            // does it start with @?
-            // does it match against list of names
-            // autofill w/ gray screenname
+        } else if (ev.which == 9 && !ev.ctrlKey &&  !ev.shiftKey) {
+            var user = predictUser(messageBox);
+            if (user.length > 0) {
+                messageBox.value = user;
+            }
+            ev.preventDefault();
         }
     },
     'click #add-message-form .chatInputAction': function(ev) {
         ev.preventDefault();
-        newMessage();
+        newMessage(ev.target);
     }
 };
+
+function predictUser (input) {
+    var username = "";
+
+    var text = input.value;
+
+    // get word immediately before the cursor
+    var cursorPos = input.selectionStart;
+
+    var preceding = text.substring(0, cursorPos);
+
+    var words = preceding.split(' ');
+    lastWord = words[words.length - 1];
+
+    // make sure it's not a space
+    if (lastWord.length > 0) {
+        var userRegEx = new RegExp(lastWord, "i");
+
+        // TODO allow for tabbing through names
+        var user = Meteor.users.findOne({"username": userRegEx});
+
+        if (user) {
+            text = text.replace(lastWord, user.username);
+        }
+    }
+
+    return text;
+}
 
 Template.chatBox.created = function () {
     setLastRead();
