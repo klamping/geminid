@@ -108,6 +108,11 @@ Messages.find({}).observeChanges({
             Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
         }
         setUnreadCount();
+
+        // alert if username is mentioned
+        if (hasUsersName(message, Meteor.user)) {
+            alertCurrentUser();
+        }
     }
 });
 
@@ -171,7 +176,7 @@ Template.chatBox.events = {
             newMessage(messageBox);
             ev.preventDefault();
         } else if (ev.which == 9 && !ev.ctrlKey &&  !ev.shiftKey) {
-            var user = predictUser(messageBox);
+            var user = predictUser(messageBox, Meteor.users);
             if (user.length > 0) {
                 messageBox.value = user;
             }
@@ -183,34 +188,6 @@ Template.chatBox.events = {
         newMessage(ev.target);
     }
 };
-
-function predictUser (input) {
-    var username = "";
-
-    var text = input.value;
-
-    // get word immediately before the cursor
-    var cursorPos = input.selectionStart;
-
-    var preceding = text.substring(0, cursorPos);
-
-    var words = preceding.split(' ');
-    lastWord = words[words.length - 1];
-
-    // make sure it's not a space
-    if (lastWord.length > 0) {
-        var userRegEx = new RegExp(lastWord, "i");
-
-        // TODO allow for tabbing through names
-        var user = Meteor.users.findOne({"username": userRegEx});
-
-        if (user) {
-            text = text.replace(lastWord, user.username);
-        }
-    }
-
-    return text;
-}
 
 Template.chatBox.created = function () {
     setLastRead();

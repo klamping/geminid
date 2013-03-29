@@ -1,13 +1,13 @@
 var chai = require("chai");
 chai.should();
 
-var messageUtils = require("../../client/javascripts/message-formatting.js");
+var messageUtils = require("../../client/javascripts/message-formatting.js").messageUtils;
 var timeUtils = require("../../client/javascripts/time-formatting.js");
 var domUtils = require("../../client/javascripts/dom-utils.js").domUtils;
 
 describe('Geminid', function () {
     // message formatting
-    describe('#replaceURLWithHTMLLinks()', function(){
+    describe('#replaceURLWithHTMLLinks()', function (){
         it('should replace a plain url with markdown format', function(){
             messageUtils.replaceURLWithHTMLLinks("http://www.url.com").should.equal('[http://www.url.com](http://www.url.com)');
         });
@@ -25,6 +25,40 @@ describe('Geminid', function () {
             var multiLink = "This is [an example](http://example.com/) inline link and here's a plain one http://example.com/.";
             var multiLinkResult = "This is [an example](http://example.com/) inline link and here's a plain one [http://example.com/](http://example.com/).";
             messageUtils.replaceURLWithHTMLLinks(multiLink).should.equal(multiLinkResult);
+        });
+    });
+    describe('#predictUser()', function() {
+        // create mock users object (TODO replace with mock MongoDB)
+        var users = {
+            findOne: function () {
+                // this function just returns a default username... need to update to test regEx
+                return {
+                    username: "username"
+                };
+            }
+        };
+
+        function createInputBox (value, cursorPos) {
+            return {
+                value: value,
+                selectionStart: cursorPos
+            };
+        }
+
+        it("should replace the beginning of a username with the full name", function () {
+            var input = createInputBox("this is user", 12);
+            var text = messageUtils.predictUser(input, users);
+            text.should.equal("this is username");
+
+            var middleContent = createInputBox("this is user which has cursor in middle", 12);
+            var middleContentText = messageUtils.predictUser(middleContent, users);
+            middleContentText.should.equal("this is username which has cursor in middle");
+        });
+
+        it("should not replace if text before cursor doesn't match", function () {
+            var input = createInputBox("this is user", 8);
+            var text = messageUtils.predictUser(input, users);
+            text.should.equal("this is user");
         });
     });
 
