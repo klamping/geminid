@@ -101,17 +101,19 @@ Accounts.ui.config({
 /* Add message listener to add unread count */
 Messages.find({}).observeChanges({
     added: function (message) {
+        message = Messages.findOne(message);
+
         Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
         Session.set("prevScroll", $('.messages').prop("scrollTop"));
 
-        if (Messages.findOne(message).time > timeLoaded) {
+        if (message.time > timeLoaded) {
             Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
         }
         setUnreadCount();
 
         // alert if username is mentioned
-        if (hasUsersName(message, Meteor.user)) {
-            alertCurrentUser();
+        if (Meteor.user() && MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
+            MessageUtils.alertCurrentUser(message.body);
         }
     }
 });
@@ -176,7 +178,7 @@ Template.chatBox.events = {
             newMessage(messageBox);
             ev.preventDefault();
         } else if (ev.which == 9 && !ev.ctrlKey &&  !ev.shiftKey) {
-            var user = predictUser(messageBox, Meteor.users);
+            var user = MessageUtils.predictUser(messageBox, Meteor.users);
             if (user.length > 0) {
                 messageBox.value = user;
             }
@@ -237,7 +239,7 @@ Template.chatBox.body = function () {
     var body = this.body;
 
     // convert all hyperlinks to html links
-    body = replaceURLWithHTMLLinks(body);
+    body = MessageUtils.replaceURLWithHTMLLinks(body);
 
     return body;
 };

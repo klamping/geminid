@@ -1,7 +1,7 @@
 var chai = require("chai");
 chai.should();
 
-var messageUtils = require("../../client/javascripts/message-formatting.js").messageUtils;
+var MessageUtils = require("../../client/javascripts/message-formatting.js").MessageUtils;
 var timeUtils = require("../../client/javascripts/time-formatting.js");
 var domUtils = require("../../client/javascripts/dom-utils.js").domUtils;
 
@@ -9,22 +9,22 @@ describe('Geminid', function () {
     // message formatting
     describe('#replaceURLWithHTMLLinks()', function (){
         it('should replace a plain url with markdown format', function(){
-            messageUtils.replaceURLWithHTMLLinks("http://www.url.com").should.equal('[http://www.url.com](http://www.url.com)');
+            MessageUtils.replaceURLWithHTMLLinks("http://www.url.com").should.equal('[http://www.url.com](http://www.url.com)');
         });
         it('should replace a plain url in text with an  HTML link', function(){
-            messageUtils.replaceURLWithHTMLLinks("This http://www.url.com is my website").should.equal('This [http://www.url.com](http://www.url.com) is my website');
+            MessageUtils.replaceURLWithHTMLLinks("This http://www.url.com is my website").should.equal('This [http://www.url.com](http://www.url.com) is my website');
         });
         it('should replace multiple plain urls in text with an  HTML link', function(){
-            messageUtils.replaceURLWithHTMLLinks("This http://www.url.com is my website and this http://www.urla.com is yours").should.equal('This [http://www.url.com](http://www.url.com) is my website and this [http://www.urla.com](http://www.urla.com) is yours');
+            MessageUtils.replaceURLWithHTMLLinks("This http://www.url.com is my website and this http://www.urla.com is yours").should.equal('This [http://www.url.com](http://www.url.com) is my website and this [http://www.urla.com](http://www.urla.com) is yours');
         });
         it('should not change Markdown links', function(){
             var markdownLink = "This is [an example](http://example.com/) inline link.";
-            messageUtils.replaceURLWithHTMLLinks(markdownLink).should.equal(markdownLink);
+            MessageUtils.replaceURLWithHTMLLinks(markdownLink).should.equal(markdownLink);
         });
         it('should replace some links but not others', function(){
             var multiLink = "This is [an example](http://example.com/) inline link and here's a plain one http://example.com/.";
             var multiLinkResult = "This is [an example](http://example.com/) inline link and here's a plain one [http://example.com/](http://example.com/).";
-            messageUtils.replaceURLWithHTMLLinks(multiLink).should.equal(multiLinkResult);
+            MessageUtils.replaceURLWithHTMLLinks(multiLink).should.equal(multiLinkResult);
         });
     });
     describe('#predictUser()', function() {
@@ -47,39 +47,39 @@ describe('Geminid', function () {
 
         it("should replace the beginning of a username with the full name", function () {
             var input = createInputBox("this is user", 12);
-            var text = messageUtils.predictUser(input, users);
+            var text = MessageUtils.predictUser(input, users);
             text.should.equal("this is username");
 
             var middleContent = createInputBox("this is user which has cursor in middle", 12);
-            var middleContentText = messageUtils.predictUser(middleContent, users);
+            var middleContentText = MessageUtils.predictUser(middleContent, users);
             middleContentText.should.equal("this is username which has cursor in middle");
         });
 
         it("should not replace if text before cursor doesn't match", function () {
             var input = createInputBox("this is user", 8);
-            var text = messageUtils.predictUser(input, users);
+            var text = MessageUtils.predictUser(input, users);
             text.should.equal("this is user");
         });
     });
     describe('#hasUsersName()', function() {
         it("should match if text matches name", function () {
-            messageUtils.hasUsersName("username", "username").should.equal(true);
+            MessageUtils.hasUsersName("username", "username").should.equal(true);
         });
         it("should not match a name that's not a whole word", function () {
-            messageUtils.hasUsersName("user", "username").should.equal(false);
-            messageUtils.hasUsersName("username", "user").should.equal(false);
+            MessageUtils.hasUsersName("user", "username").should.equal(false);
+            MessageUtils.hasUsersName("username", "user").should.equal(false);
         });
         it("should match a name at the beginning of the text", function () {
-            messageUtils.hasUsersName("user with text", "user").should.equal(true);
+            MessageUtils.hasUsersName("user with text", "user").should.equal(true);
         });
         it("should match a name at the end of the text", function () {
-            messageUtils.hasUsersName("text with user", "user").should.equal(true);
+            MessageUtils.hasUsersName("text with user", "user").should.equal(true);
         });
         it("should match a name in the middle of the text", function () {
-            messageUtils.hasUsersName("text with user with text", "user").should.equal(true);
+            MessageUtils.hasUsersName("text with user with text", "user").should.equal(true);
         });
         it("should match a name regardless of case", function () {
-            messageUtils.hasUsersName("User", "user").should.equal(true);
+            MessageUtils.hasUsersName("User", "user").should.equal(true);
         });
     });
 

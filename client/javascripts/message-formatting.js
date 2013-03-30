@@ -1,4 +1,4 @@
-var messageUtils = {
+var MessageUtils = {
     replaceURLWithHTMLLinks : function(text) {
         // Find all URLs
         var exp = /(^|[^\]\(])((https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
@@ -38,12 +38,20 @@ var messageUtils = {
 
         return regEx.test(text);
     },
-    alertCurrentUser : function () {
+    alertCurrentUser : function (message) {
         // fire notification api
+        if (window.webkitNotifications) {
+            if (window.webkitNotifications.checkPermission() === 0) { // 0 is PERMISSION_ALLOWED
+                notification = window.webkitNotifications.createNotification('icon.png', 'Chat', message);
+                notification.show();
+            } else {
+                window.webkitNotifications.requestPermission();
+            }
+        }
     }
 };
 
 
 if (typeof exports !== "undefined") {
-    exports.messageUtils = messageUtils;
+    exports.MessageUtils = MessageUtils;
 }
