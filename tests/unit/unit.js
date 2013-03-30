@@ -61,6 +61,27 @@ describe('Geminid', function () {
             text.should.equal("this is user");
         });
     });
+    describe('#hasUsersName()', function() {
+        it("should match if text matches name", function () {
+            messageUtils.hasUsersName("username", "username").should.equal(true);
+        });
+        it("should not match a name that's not a whole word", function () {
+            messageUtils.hasUsersName("user", "username").should.equal(false);
+            messageUtils.hasUsersName("username", "user").should.equal(false);
+        });
+        it("should match a name at the beginning of the text", function () {
+            messageUtils.hasUsersName("user with text", "user").should.equal(true);
+        });
+        it("should match a name at the end of the text", function () {
+            messageUtils.hasUsersName("text with user", "user").should.equal(true);
+        });
+        it("should match a name in the middle of the text", function () {
+            messageUtils.hasUsersName("text with user with text", "user").should.equal(true);
+        });
+        it("should match a name regardless of case", function () {
+            messageUtils.hasUsersName("User", "user").should.equal(true);
+        });
+    });
 
     // time formatting
     describe('#formatTime()', function(){

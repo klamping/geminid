@@ -32,8 +32,11 @@ var messageUtils = {
 
         return text;
     },
-    hasUsersName : function (text, user) {
+    hasUsersName : function (text, username) {
         // check text for users name
+        var regEx = new RegExp("\\b" + username + "\\b", "i");
+
+        return regEx.test(text);
     },
     alertCurrentUser : function () {
         // fire notification api
