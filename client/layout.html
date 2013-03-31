@@ -48,6 +48,10 @@
         <button class="chatInputAction btn btn-primary">Send</button>
     </form>
     <div class="messages-container">
+        <ul class="rooms">
+            <li><a href="#">General</a></li>
+            <li><a href="#">WFH</a></li>
+        </ul>
         <ul class="messages">
             {{#each messages}}
                 {{#if newDay}}
