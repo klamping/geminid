@@ -87,8 +87,10 @@ Accounts.ui.config({
 });
 
 /* Add message listener to add unread count */
-Messages.find({}).observeChanges({
+Messages.find({}).observe({
+    _suppress_initial: true,
     added: function (message) {
+        console.log("This shouldn't run on initial page load");
         message = Messages.findOne(message);
 
         Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
