@@ -15,6 +15,13 @@ Template.chatBox.events = {
     'click #add-message-form .chatInputAction': function(ev) {
         ev.preventDefault();
         newMessage(ev.target);
+    },
+    'click .deleteRoom': function (ev) {
+        Rooms.remove(Session.get("activeRoom"));
+        setDefaultRoom(true);
+    },
+    'click .dismissDelete': function (ev) {
+        $(".closeRoom").popover("hide");
     }
 };
 
@@ -30,6 +37,16 @@ Template.chatBox.rendered = function () {
     } else {
         domUtils.scrollTo(messageContainer, Session.get("prevScroll"));
     }
+
+    // initialize room creation popover
+    $(".closeRoom").popover({
+        html: true,
+        placement: "left",
+        content: "<button class='btn btn-danger deleteRoom'>Yes, Delete it</button> <button class='btn dismissDelete'>Nevermind</button>"
+    });
+
+
+    previousPostedTime = null;
 };
 
 Template.chatBox.messages = function () {
@@ -86,7 +103,7 @@ function isSameDay (date1, date2) {
 }
 
 
-var previousPostedTime = new Date(0);
+var previousPostedTime = null;
 Template.chatBox.newDay = function () {
     var isNewDay = false;
 
@@ -94,7 +111,7 @@ Template.chatBox.newDay = function () {
     var postedTime = new Date(this.time);
 
     // compare against previous time
-    if (!isSameDay(postedTime, previousPostedTime)) {
+    if (previousPostedTime === null || !isSameDay(postedTime, previousPostedTime)) {
         // if different, post result
         isNewDay = true;
     }

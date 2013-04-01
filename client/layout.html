@@ -49,8 +49,8 @@
     </form>
     <div class="messages-container">
         {{> roomsList}}
+        <button class="close closeRoom" href="#" title="Delete this Room?">&times;</button>
         <div class="messages">
-            <!-- <a class="close" href="#" title="Delete Room">&times;</a> -->
             <ul class="messages-group">
                 {{#each messages}}
                     {{#if newDay}}

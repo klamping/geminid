@@ -1,3 +1,5 @@
+var activeRoomSelector = { active: { $not: false } };
+
 Template.roomsList.events = {
     "click .addRoom .btn": function (ev) {
         // validate that content added
@@ -24,16 +26,11 @@ Template.roomsList.events = {
 };
 
 Template.roomsList.rooms = function() {
-    return Rooms.find();
+    return Rooms.find(activeRoomSelector);
 };
 
 Template.roomsList.rendered = function () {
-    // Set the first room to display
-    var firstRoom = Rooms.findOne();
-
-    if (typeof firstRoom !== "undefined") {
-        Session.setDefault("activeRoom", firstRoom._id);
-    }
+    setDefaultRoom();
 
     // initialize room creation popover
     $(".addRoom a").popover({
@@ -47,3 +44,16 @@ Template.roomsList.rendered = function () {
             '</div></form>'
     });
 };
+
+function setDefaultRoom (force) {
+    // Set the first room to display
+    var firstRoom = Rooms.findOne(activeRoomSelector);
+
+    if (typeof firstRoom !== "undefined") {
+        if (!force) {
+            Session.setDefault("activeRoom", firstRoom._id);
+        } else {
+            Session.set("activeRoom", firstRoom._id);
+        }
+    }
+}

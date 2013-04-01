@@ -254,6 +254,29 @@ body {
       }
     }
   }
+
+
+  .closeRoom {
+    position: absolute;
+    top: 2em;
+    right: 0;
+    z-index: 10;
+    background: #fefefe;
+    padding: .1em .3em .25em;
+    margin: 1px 1px 0 0;
+    border: solid #ddd;
+    border-width: 0 0 1px 1px;
+    .rounded(0 5px 0 5px);
+    line-height: 1;
+    .opacity(.85);
+    color: #bbb;
+    .drop-shadow(0, 2px, 2px, 0.1);
+    &:hover,
+    &:focus {
+      .opacity(.95);
+      color: #999;
+    }
+  }
   .messages {
     bottom: 0;
     left: 0;
@@ -268,27 +291,6 @@ body {
     .rounded(5px);
     .drop-shadow(0, 2px, 2px, 0.2);
     max-height: 100%;
-
-    .close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 10;
-      background: #fefefe;
-      padding: .1em .3em .25em;
-      border: solid #ddd;
-      border-width: 0 0 1px 1px;
-      .rounded(0 5px 0 5px);
-      line-height: 1;
-      .opacity(.85);
-      color: #bbb;
-      .drop-shadow(0, 2px, 2px, 0.1);
-      &:hover,
-      &:focus {
-        .opacity(.95);
-        color: #999;
-      }
-    }
 
     .messages-group {
       margin: 0;
