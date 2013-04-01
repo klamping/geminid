@@ -49,23 +49,28 @@
     </form>
     <div class="messages-container">
         <ul class="rooms">
-            <li><a href="#">General</a></li>
-            <li><a href="#">WFH</a></li>
-        </ul>
-        <ul class="messages">
-            {{#each messages}}
-                {{#if newDay}}
-                <li class="newDay">
-                    {{dayStamp}}
-                </li>
-                {{/if}}
-                <li class="message {{user}} {{unreadStatus}} clearfix">
-                    <strong class="messenger">{{messenger}}: </strong>
-                    <div class="message-body">{{#markdown}}{{body}}{{/markdown}}</div>
-                    <span class="message-timestamp">{{timestamp}}</span>
-                </li>
+            {{#each rooms}}
+                {{> roomList}}
             {{/each}}
+            <li class="addRoom"><a href="#" title="Create Room" data-toggle="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="Create a new room"><i class="icon-plus"></i></a></li>
         </ul>
+        <div class="messages">
+            <a class="close" href="#" title="Delete Room">&times;</a>
+            <ul class="messages-group">
+                {{#each messages}}
+                    {{#if newDay}}
+                    <li class="newDay">
+                        {{dayStamp}}
+                    </li>
+                    {{/if}}
+                    <li class="message {{user}} {{unreadStatus}} clearfix">
+                        <strong class="messenger">{{messenger}}: </strong>
+                        <div class="message-body">{{#markdown}}{{body}}{{/markdown}}</div>
+                        <span class="message-timestamp">{{timestamp}}</span>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -73,4 +78,9 @@
     <li class="user">
       <span class="email">{{email}}</span><span class="status">{{status}}</span>
     </li>
+</template>
+
+<template name="roomList">
+    <li class="room {{isActive}}"><a href="#">{{title}}</a></li>
+    <!-- <li class="room"><a href="#">WFH&nbsp;&nbsp;<span class="label label-info">3</span></a></li> -->
 </template>

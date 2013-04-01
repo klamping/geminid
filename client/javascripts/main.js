@@ -1,6 +1,7 @@
 /* DISCLAIMER: This code is in need of some serious clean-up and re-organizing. Right now, all of this is just a POC. A rewrite may be in the future */
 Meteor.subscribe("messages");
 Meteor.subscribe("allusers");
+Meteor.subscribe("rooms");
 
 var timeLoaded = Date.now();
 Session.set("MessageCountLimit", 200);
@@ -42,12 +43,13 @@ function setActive (isActive) {
     }
 }
 setActive(true);
-$(document).idleTimer();
-$(document).on("active.idleTimer", function () {
+var doc = $(document);
+doc.idleTimer();
+doc.on("active.idleTimer", function () {
     isIdle = false;
     setActive(true);
 });
-$(document).on("idle.idleTimer", function () {
+doc.on("idle.idleTimer", function () {
     isIdle = true;
     setActive(false);
 });
@@ -56,18 +58,6 @@ $(document).on("idle.idleTimer", function () {
 function onFocusChange () {
     Session.set('lastViewTime', Date.now());
     setActive(!document[hidden], Meteor.user());
-}
-
-function newMessage (input) {
-    if(input.value !== '') {
-        Messages.insert({
-            author: Meteor.user(),
-            body: input.value,
-            time: Date.now()
-        });
-        setLastRead();
-        input.value = '';
-    }
 }
 
 function getUnreadMessageCount(lastViewTime) {

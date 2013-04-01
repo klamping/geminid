@@ -214,14 +214,53 @@ body {
     .flex-flow;
     position: relative;
   }
+  .rooms {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 10;
+    .room,
+    .addRoom {
+      float: left;
+      border: 1px solid #ddd;
+      margin: .5em 0 0 .5em;
+      border-bottom: 0;
+      border-radius: 4px 4px 0 0;
+      background: #f3f3f3;
+      &.active {
+        background: #fff;
+        border-bottom: 1px solid #fff;
+        a {
+          color: #333;
+          &:hover {
+            text-decoration: none;
+            cursor: default;
+          }
+        }
+      }
+      a {
+        box-sizing: border-box;
+        height: 2.3em;
+        line-height: 1.5em;
+        display: block;
+        padding: .5em 1.5em;
+      }
+    }
+    .addRoom {
+      background: #fafafa;
+      a {
+        padding: .25em .5em;
+      }
+    }
+  }
   .messages {
-
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-  position: absolute;
-  right: 0;
-  top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    position: absolute;
+    right: 0;
+    top: 2.5em;
     overflow: auto;
     margin: 5px 0 0;
     padding: 0;
@@ -229,6 +268,32 @@ body {
     .rounded(5px);
     .drop-shadow(0, 2px, 2px, 0.2);
     max-height: 100%;
+
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 10;
+      background: #fefefe;
+      padding: .1em .3em .25em;
+      border: solid #ddd;
+      border-width: 0 0 1px 1px;
+      .rounded(0 5px 0 5px);
+      line-height: 1;
+      .opacity(.85);
+      color: #bbb;
+      .drop-shadow(0, 2px, 2px, 0.1);
+      &:hover,
+      &:focus {
+        .opacity(.95);
+        color: #999;
+      }
+    }
+
+    .messages-group {
+      margin: 0;
+      padding: 0;
+    }
 
     .message {
         list-style: none;

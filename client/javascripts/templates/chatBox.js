@@ -34,11 +34,16 @@ Template.chatBox.rendered = function () {
     }
 };
 
+
+Template.chatBox.rooms = function() {
+    return Rooms.find();
+};
+
 Template.chatBox.messages = function () {
     //var messages = Messages.find({}, { sort: { time: 1 }});
     var messageLimit = Session.get("MessageCountLimit");
 
-    return Messages.find({}, { sort: { time: -1 }, limit: messageLimit }).fetch().reverse();
+    return Messages.find({room: Session.get("activeRoom")}, { sort: { time: -1 }, limit: messageLimit }).fetch().reverse();
 };
 
 Template.chatBox.unreadStatus = function () {
@@ -111,3 +116,18 @@ Template.chatBox.dayStamp = function () {
 
     return $.datepicker.formatDate('DD, MM d, yy', postedTime);
 };
+
+
+// Utility Functions
+function newMessage (input) {
+    if(input.value !== '') {
+        Messages.insert({
+            author: Meteor.user(),
+            body: input.value,
+            time: Date.now(),
+            room: Session.get("activeRoom")
+        });
+        setLastRead();
+        input.value = '';
+    }
+}
