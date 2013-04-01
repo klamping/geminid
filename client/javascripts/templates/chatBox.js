@@ -25,18 +25,11 @@ Template.chatBox.created = function () {
 // Rendered is called after a new message is added to the list (since it has to re-render itself)
 Template.chatBox.rendered = function () {
     var messageContainer = $('.messages');
-    //console.log(messageContainer.prop("scrollTop"));
     if (Session.get("shouldScroll")) {
-      //  console.log('scrolling');
         domUtils.scrollToBottom(messageContainer);
     } else {
         domUtils.scrollTo(messageContainer, Session.get("prevScroll"));
     }
-};
-
-
-Template.chatBox.rooms = function() {
-    return Rooms.find();
 };
 
 Template.chatBox.messages = function () {

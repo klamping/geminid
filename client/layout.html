@@ -48,14 +48,9 @@
         <button class="chatInputAction btn btn-primary">Send</button>
     </form>
     <div class="messages-container">
-        <ul class="rooms">
-            {{#each rooms}}
-                {{> roomList}}
-            {{/each}}
-            <li class="addRoom"><a href="#" title="Create Room" data-toggle="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="Create a new room"><i class="icon-plus"></i></a></li>
-        </ul>
+        {{> roomsList}}
         <div class="messages">
-            <a class="close" href="#" title="Delete Room">&times;</a>
+            <!-- <a class="close" href="#" title="Delete Room">&times;</a> -->
             <ul class="messages-group">
                 {{#each messages}}
                     {{#if newDay}}
@@ -80,7 +75,18 @@
     </li>
 </template>
 
-<template name="roomList">
+<template name="roomsList">
+    <ul class="rooms">
+        {{#each rooms}}
+            {{> roomTab}}
+        {{/each}}
+        <li class="addRoom"><a href="#" title="Create a New Chat Room"><i class="icon-plus"></i></a></li>
+    </ul>
+</template>
+
+<template name="roomTab">
     <li class="room {{isActive}}"><a href="#">{{title}}</a></li>
     <!-- <li class="room"><a href="#">WFH&nbsp;&nbsp;<span class="label label-info">3</span></a></li> -->
 </template>
+
+
