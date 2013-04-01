@@ -42,7 +42,9 @@ var MessageUtils = {
         // fire notification api
         if (window.webkitNotifications) {
             if (window.webkitNotifications.checkPermission() === 0) { // 0 is PERMISSION_ALLOWED
-                notification = window.webkitNotifications.createNotification('icon.png', 'Chat', message);
+                var room = Rooms.findOne(Session.get("activeRoom"));
+                var title = room ? room.title : 'Someone mentioned you';
+                notification = window.webkitNotifications.createNotification('icon.png', title, message);
                 notification.show();
             } else {
                 window.webkitNotifications.requestPermission();
