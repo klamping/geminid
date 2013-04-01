@@ -51,8 +51,7 @@
         {{> roomsList}}
         <button class="close closeRoom" href="#" title="Delete this Room?">&times;</button>
         <div class="messages">
-            <ul class="messages-group">
-                {{#each messages}}
+            <ul class="messages-group">{{#each messages}}
                     {{#if newDay}}
                     <li class="newDay">
                         {{dayStamp}}
@@ -63,8 +62,7 @@
                         <div class="message-body">{{#markdown}}{{body}}{{/markdown}}</div>
                         <span class="message-timestamp">{{timestamp}}</span>
                     </li>
-                {{/each}}
-            </ul>
+                {{/each}}</ul>
         </div>
     </div>
 </template>

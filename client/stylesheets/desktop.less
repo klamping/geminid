@@ -292,9 +292,17 @@ body {
     .drop-shadow(0, 2px, 2px, 0.2);
     max-height: 100%;
 
+
     .messages-group {
       margin: 0;
       padding: 0;
+      &:empty {
+        height: 100%;
+        background: url("/aim.jpg") no-repeat 50% 50%;
+        // other backgrounds are:
+        background: url("/195.gif") no-repeat 50% 50%;
+        //background: url("/iconhell_heycalifornia_escape.gif") no-repeat 50% 50%;
+      }
     }
 
     .message {
@@ -304,6 +312,7 @@ body {
         border-bottom: 1px solid #efefef;
         .transition(200ms);
         position: relative;
+        background: #fff;
 
         &:nth-child(odd) {
             // background: #fcfcfc;
@@ -344,6 +353,7 @@ body {
     padding: .5em 0;
     color: #bbb;
     font-style: italic;
+    background: #fff;
   }
   .newDay + .message {
     border-top: 1px solid #efefef;
