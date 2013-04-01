@@ -43,7 +43,7 @@ var MessageUtils = {
         if (window.webkitNotifications) {
             if (window.webkitNotifications.checkPermission() === 0) { // 0 is PERMISSION_ALLOWED
                 var room = Rooms.findOne(Session.get("activeRoom"));
-                var title = room ? room.title : 'Someone mentioned you';
+                var title = room ? "Mentioned in: " + room.title : 'Someone mentioned you';
                 notification = window.webkitNotifications.createNotification('icon.png', title, message);
                 notification.show();
             } else {

@@ -1,5 +1,5 @@
 /* DISCLAIMER: This code is in need of some serious clean-up and re-organizing. Right now, all of this is just a POC. A rewrite may be in the future */
-Meteor.subscribe("messages");
+var messagesHandle = Meteor.subscribe("messages");
 Meteor.subscribe("allusers");
 Meteor.subscribe("rooms");
 
@@ -87,23 +87,26 @@ Accounts.ui.config({
 });
 
 /* Add message listener to add unread count */
-Messages.find({}).observe({
-    _suppress_initial: true,
-    added: function (message) {
-        console.log("This shouldn't run on initial page load");
-        message = Messages.findOne(message);
+Meteor.autorun(function () {
+    if (!messagesHandle.ready()) return;
 
-        Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
-        Session.set("prevScroll", $('.messages').prop("scrollTop"));
+    Messages.find().observe({
+        _suppress_initial: true,
+        added: function (message) {
+            message = Messages.findOne(message);
 
-        if (message.time > timeLoaded) {
-            Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
+            Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
+            Session.set("prevScroll", $('.messages').prop("scrollTop"));
+
+            if (message.time > timeLoaded) {
+                Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
+            }
+            setUnreadCount();
+
+            // alert if username is mentioned
+            if (Meteor.user() && MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
+                MessageUtils.alertCurrentUser(message.body);
+            }
         }
-        setUnreadCount();
-
-        // alert if username is mentioned
-        if (Meteor.user() && MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
-            MessageUtils.alertCurrentUser(message.body);
-        }
-    }
+    });
 });
