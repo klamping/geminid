@@ -30,7 +30,7 @@ var MessageUtils = {
             }
         }
 
-        return text;
+        return "@" + text + " ";
     },
     hasUsersName : function (text, username) {
         // check text for users name

@@ -29,7 +29,6 @@ Meteor.subscribe("messages", function () {
             } else {
                 unreadCount[roomId] = 0;
             }
-            console.log(unreadCount);
         }
     });
 });
