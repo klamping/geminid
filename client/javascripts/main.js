@@ -1,9 +1,42 @@
-/* DISCLAIMER: This code is in need of some serious clean-up and re-organizing. Right now, all of this is just a POC. A rewrite may be in the future */
-var messagesHandle = Meteor.subscribe("messages");
+/* DISCLAIMER: This code is in the middle of some serious clean-up and re-organizing. Right now, all of this is just a POC and is completely subject to change. */
+
+var unreadCount = {};
+
+Meteor.subscribe("messages", function () {
+    /* Add message listener to add unread count */
+    Messages.find().observe({
+        _suppress_initial: true,
+        added: function (message) {
+            message = Messages.findOne(message);
+
+            Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
+            Session.set("prevScroll", $('.messages').prop("scrollTop"));
+
+            if (message.time > Session.get("timeLoaded")) {
+                Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
+            }
+            setUnreadCount();
+
+            // alert if username is mentioned
+            if (Meteor.user() && MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
+                MessageUtils.alertCurrentUser(message.body);
+            }
+
+            // add to unread count on tab if not focused
+            var roomId = message.room;
+            if (roomId !== Session.get("activeRoom")) {
+                unreadCount[roomId] = (roomId in unreadCount) ? unreadCount[roomId] + 1 : 1;
+            } else {
+                unreadCount[roomId] = 0;
+            }
+            console.log(unreadCount);
+        }
+    });
+});
 Meteor.subscribe("allusers");
 Meteor.subscribe("rooms");
 
-var timeLoaded = Date.now();
+Session.set("timeLoaded", Date.now());
 Session.set("MessageCountLimit", 200);
 
 // Set up listeners for window focus change
@@ -84,29 +117,4 @@ function setUnreadCount () {
 /* Define how user should sign up to website */
 Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
-});
-
-/* Add message listener to add unread count */
-Meteor.autorun(function () {
-    if (!messagesHandle.ready()) return;
-
-    Messages.find().observe({
-        _suppress_initial: true,
-        added: function (message) {
-            message = Messages.findOne(message);
-
-            Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
-            Session.set("prevScroll", $('.messages').prop("scrollTop"));
-
-            if (message.time > timeLoaded) {
-                Session.set("MessageCountLimit", Session.get("MessageCountLimit") + 1);
-            }
-            setUnreadCount();
-
-            // alert if username is mentioned
-            if (Meteor.user() && MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
-                MessageUtils.alertCurrentUser(message.body);
-            }
-        }
-    });
 });

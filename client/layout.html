@@ -30,7 +30,7 @@
     </div>
 </template>
 
-<template name="allUsers">
+<template name="allUsers">    
   <h3 class="section-heading">Folks:</h3>
   <ul class="users-list">
   {{#each users}}
@@ -83,8 +83,8 @@
 </template>
 
 <template name="roomTab">
-    <li class="room {{isActive}}"><a href="#">{{title}}</a></li>
-    <!-- <li class="room"><a href="#">WFH&nbsp;&nbsp;<span class="label label-info">3</span></a></li> -->
+    <li class="room {{isActive}}"><a href="#">{{title}}{{#if isActive}} {{else}}<span 
+        class="label label-info">{{missedMessages}}</span>{{/if}}</a></li>
 </template>
 
 
