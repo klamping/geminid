@@ -84,7 +84,7 @@
 
 <template name="roomTab">
     <li class="room {{isActive}}"><a href="#">{{title}}{{#if isActive}} {{else}}<span 
-        class="label label-info">{{missedMessages}}</span>{{/if}}</a></li>
+        class="label {{labelType}}">{{missedMessages}}</span>{{/if}}</a></li>
 </template>
 
 

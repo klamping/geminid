@@ -17,3 +17,11 @@ Template.roomTab.missedMessages = function () {
     }
     return count;
 };
+
+Template.roomTab.labelType = function () {
+    var type = "";
+    if (unreadCount[this._id] > 0) {
+        type = "label-info";
+    }
+    return type;
+};
