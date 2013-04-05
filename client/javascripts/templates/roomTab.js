@@ -20,7 +20,17 @@ Template.roomTab.missedMessages = function () {
 
 Template.roomTab.labelType = function () {
     var type = "";
-    if (unreadCount[this._id] > 0) {
+    var count = unreadCount[this._id];
+
+    if (count >= 1000) {
+        type = "label-inverse";
+    } else if (count >= 100) {
+        type = "label-important";
+    } else if (count == 42) {
+        type = "label-success";
+    } else if (count >= 10) {
+        type = "label-warning";
+    } else if (count > 0) {
         type = "label-info";
     }
     return type;
