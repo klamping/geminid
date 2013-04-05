@@ -3,6 +3,9 @@
 var unreadCount = {};
 
 Meteor.subscribe("messages", function () {
+    /* Do Initial Scroll */
+    Session.set("shouldScroll", true);
+
     /* Add message listener to add unread count */
     Messages.find().observe({
         _suppress_initial: true,
