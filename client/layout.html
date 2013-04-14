@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <!-- Favicon attr: http://www.iconarchive.com/show/3d-cartoon-vol3-icons-by-deleket/AOL-Instant-Messenger-icon.html -->
+    <!-- 
+        Beep sound attr: http://www.freesound.org/people/Empty%20Bell/sounds/180821/
+    -->
 </head>
 <body>
     <div class="page-container">
@@ -32,11 +35,18 @@
 
 <template name="allUsers">    
   <h3 class="section-heading">Folks:</h3>
-  <ul class="users-list">
+  <ul class="users-list clearfix">
   {{#each users}}
     {{> userProfile}}
   {{/each}}
   </ul>
+
+  <div>
+    <label class="checkbox">
+        <input type="checkbox" {{beep}} class="toggle-audio" />
+        Beep on new message?
+    </label>
+  </div>
   <p class="alert alert-success alert-markdown">
     Messages auto-format <a href="http://daringfireball.net/projects/markdown/syntax" target="_blank">Markdown syntax</a>.
   </p>
@@ -57,13 +67,14 @@
                         {{dayStamp}}
                     </li>
                     {{/if}}
-                    <li class="message {{user}} {{unreadStatus}} clearfix">
+                    <li class="message {{user}} {{unreadStatus}} clearfix {{_id}}">
                         <strong class="messenger">{{messenger}}: </strong>
                         <div class="message-body">{{#markdown}}{{body}}{{/markdown}}</div>
                         <span class="message-timestamp">{{timestamp}}</span>
                     </li>
                 {{/each}}</ul>
         </div>
+        <audio src="/sounds/beep.mp3" id="message-sound" preload="auto"></audio>
     </div>
 </template>
 

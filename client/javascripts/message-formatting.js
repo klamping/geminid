@@ -26,11 +26,11 @@ var MessageUtils = {
             var user = users.findOne({"username": userRegEx});
 
             if (user) {
-                text = text.replace(lastWord, user.username);
+                text = "@" + text.replace(lastWord, user.username) + " ";
             }
         }
 
-        return "@" + text + " ";
+        return text;
     },
     hasUsersName : function (text, username) {
         // check text for users name

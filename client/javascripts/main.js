@@ -2,6 +2,12 @@
 
 var unreadCount = {};
 
+// TODO this needs to store after browser refresh
+var isAudioOn = Session.get("isAudioOn");
+if (typeof isAudioOn == "undefined") {
+    Session.set("isAudioOn", true);
+}
+
 Meteor.subscribe("messages", function () {
     /* Do Initial Scroll */
     Session.set("shouldScroll", true);
@@ -12,6 +18,11 @@ Meteor.subscribe("messages", function () {
         added: function (message) {
             message = Messages.findOne(message);
 
+            // make beep noise
+            if (Session.get("isAudioOn") && message.author.username != Meteor.user().username) {
+                document.getElementById("message-sound").play();
+            }
+
             Session.set("shouldScroll", domUtils.shouldAutoScroll($('.messages')));
             Session.set("prevScroll", $('.messages').prop("scrollTop"));
 
@@ -21,7 +32,7 @@ Meteor.subscribe("messages", function () {
             setUnreadCount();
 
             // alert if username is mentioned
-            if (Meteor.user() && MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
+            if (MessageUtils.hasUsersName(message.body, Meteor.user().username)) {
                 MessageUtils.alertCurrentUser(message.body);
             }
 
