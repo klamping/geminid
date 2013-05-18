@@ -16,7 +16,7 @@ var domUtils = {
     },
     scrollToBottom: function (container) {
         if (container.length > 0) {
-            this.scrollTo(container, container.prop("scrollHeight"));
+            this.scrollTo(container, container.prop("scrollHeight") + 1000);
         }
     },
     scrollTo: function (container, scrollPos) {

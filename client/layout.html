@@ -4,11 +4,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <!-- Favicon attr: http://www.iconarchive.com/show/3d-cartoon-vol3-icons-by-deleket/AOL-Instant-Messenger-icon.html -->
-    <!-- 
+    <!--
         Beep sound attr: http://www.freesound.org/people/Empty%20Bell/sounds/180821/
     -->
 </head>
 <body>
+    {{> pageContainer}}
+</body>
+
+<template name="pageContainer">
     <div class="page-container">
         {{> loginPanel}}
         <div class="chatroom">
@@ -22,7 +26,7 @@
             {{/if}}
         </div>
     </div>
-</body>
+</template>
 
 <template name="loginPanel">
     <div class="login-panel btn {{loggedOut}}">
@@ -33,7 +37,7 @@
     </div>
 </template>
 
-<template name="allUsers">    
+<template name="allUsers">
   <h3 class="section-heading">Folks:</h3>
   <ul class="users-list clearfix">
   {{#each users}}
@@ -94,7 +98,7 @@
 </template>
 
 <template name="roomTab">
-    <li class="room {{isActive}}"><a href="#">{{title}}{{#if isActive}} {{else}}<span 
+    <li class="room {{isActive}}"><a href="#">{{title}}{{#if isActive}} {{else}}<span
         class="label {{labelType}}">{{missedMessages}}</span>{{/if}}</a></li>
 </template>
 

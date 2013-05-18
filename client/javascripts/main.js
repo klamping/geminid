@@ -131,3 +131,38 @@ function setUnreadCount () {
 Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
 });
+
+
+Template.pageContainer.events = {
+    "keypress .page-container": function (ev) {
+        var roomDelta = 0;
+        var currentRoomIndex = -1;
+        var rooms;
+        var activeRoom = Session.get('activeRoom');
+        var i = 0;
+
+        if (ev.ctrlKey && (ev.charCode == 27 || ev.charCode == 29)) {
+            roomDelta = ev.charCode === 27 ? -1 : 1;
+            rooms = Rooms.find({}).fetch();
+
+            // find room index in rooms
+            do {
+                if (activeRoom == rooms[i]._id) {
+                    currentRoomIndex = i;
+                }
+                i++;
+            } while (currentRoomIndex === -1 && i < rooms.length)
+
+            var nextRoomIndex = currentRoomIndex + roomDelta;
+
+            if (nextRoomIndex === -1) {
+                nextRoomIndex = rooms.length - 1;
+            } else if (nextRoomIndex === rooms.length) {
+                nextRoomIndex = 0;
+            }
+
+            Session.set("activeRoom", rooms[nextRoomIndex]._id);
+
+        }
+    }
+}
