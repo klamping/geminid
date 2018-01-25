@@ -27,7 +27,7 @@ All contributions are welcome.
 
 To run, install [Meteor](http://docs.meteor.com/#quickstart) and [Meteorite](https://github.com/oortcloud/meteorite#installing-meteorite). Once installed, in a console, navigate to root directory of repo, then enter the command `mrt`.
 
-To run unit tests, install [Mocha](http://visionmedia.github.com/mocha/#installation) and run `mocha tests/unit/unit.js` in the root directory.
+To run unit tests, install [Mocha](https://mochajs.org/#installation) and run `mocha tests/unit/unit.js` in the root directory.
 
 ### Ways to contribute
 
